@@ -1,0 +1,93 @@
+Memory Management:
+
+1. Setup additional swap space in the system to solve low memory issue.  The swap which you added should be available post reboot
+	
+Ans. azureuser@Linux:/$ sudo -i	
+	root@Linux:/#  mkdir dir	
+	root@Linux:/#  cd dir		
+	root@Linux:/# touch myswapfile	
+	root@Linux:/# dd if=/dev/zero of=/dir/myswapfile bs=1024 count=100		
+	root@Linux:/# ll /dir/myswapfile
+	root@Linux:/# mkswap /dir/myswapfile
+	root@Linux:/# swapon -s
+
+2. Find out the number of process is in run queue and blocking queue.
+
+Ans: azureuser@Linux:~$ vmstat 1
+
+==========================================================================================================================================================================================
+
+User Management:
+
+1. Create user "nikhil" with home directory set as "/home/nikhil"
+       a) nikhil user should have "/bin/sh" shell for his environment
+       b) His password should expire in 9 days and 2 days before password expiry, he should get warning. User account must expire in 1 month from creation date
+
+Ans: 	azureuser@Linux:/$ sudo useradd nikhil -m -s /bin/bash  
+	azureuser@Linux:/$ sudo chage -l nikhil       
+	azureuser@Linux:/$ sudo chage -M 9 nikhil     (password expire in maximum 9 days)
+	azureuser@Linux:/$ sudo chage -W 2 nikhil     (password change warning before 2 days)
+	azureuser@Linux:/$ sudo chage -E 2022-03-24 nikhil   (user accout expire in one month)
+
+===========================================================================================================================================================================================
+
+Process Management:
+
+1. List out highest priority process in the system
+
+Ans: 	azureuser@Linux:/$ ps -eo pid,ppid,cmd,%mem,%cpu,nice --sort=-nice | tail
+
+===========================================================================================================================================================================================
+
+File System Management:
+
+1. List out 5 files in your system which consuming most of the disk space
+
+Ans: 	azureuser@Linux:~$ du . | sort -nr | head -n5 
+
+3.  Create user name "shubham" and add that user in the group "adm"
+      a) Create folder /data , change owner and group as  "root:adm
+      b) Change /data permission such a way that user can able to write data in this folder and ownership of files or folder which you creates in this folder should be same as parent folder i.e /data folder permission (root:adm)
+
+	</>#
+	..      root  adm   /data
+
+	</data>#
+	root  adm test.txt
+
+Ans: 	azureuser@Linux:~$ sudo useradd -g adm shubham
+	
+	azureuser@Linux:~$ id shubham
+	
+	azureuser@Linux:~$ sudo -i    
+	
+	root@Linux:~# mkdir /data  
+	
+	root@Linux:~# ll
+
+	root@Linux:~# cd /data  
+	
+	root@Linux:~/data# cd /
+	
+	root@Linux:/# ls
+
+	root@Linux:/# chown root:adm data/    
+	
+	root@Linux:/# chmod 664 data/    
+
+	root@Linux:/# ll data/
+
+	root@Linux:/# cd data/
+	
+	root@Linux:/data# touch test.txt
+
+	root@Linux:/data# ll
+
+	root@Linux:/data# chmod -R 664 test.txt
+	
+	root@Linux:/data# ll
+
+	root@Linux:/data# chown root:adm test.txt
+	
+	root@Linux:/data# ll
+
